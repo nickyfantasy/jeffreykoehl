@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.nickyfantasy.marblesplash.Utils;
 import com.nickyfantasy.marblesplash.framework.Audio;
 import com.nickyfantasy.marblesplash.framework.FileIO;
 import com.nickyfantasy.marblesplash.framework.Game;
@@ -47,7 +48,9 @@ public abstract class AndroidGame extends Activity implements Game {
         Point size = new Point();
         if (Build.VERSION.SDK_INT >= 19) {
         	View decorView = this.getWindow().getDecorView();
-	        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+	        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY 
+	        		| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+	        		| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 	        decorView.setSystemUiVisibility(uiOptions);
             this.getWindowManager().getDefaultDisplay().getRealSize(size);
             frameBufferWidth = size.x;
@@ -69,7 +72,9 @@ public abstract class AndroidGame extends Activity implements Game {
             frameBufferWidth = metrics.widthPixels;
             frameBufferHeight = metrics.heightPixels;
         }
-        
+        Utils.mDeviceWidth = frameBufferWidth;
+        Utils.mDeviceHeight = frameBufferHeight;
+        Utils.mScaleFrom1080 = frameBufferHeight / 1080f;
         Log.d("ZZZ", "display width = " + frameBufferWidth);
         Log.d("ZZZ", "display height = " + frameBufferHeight);
 //        int frameBufferWidth = 1200;

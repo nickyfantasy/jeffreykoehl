@@ -12,8 +12,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.util.Log;
 
+import com.nickyfantasy.marblesplash.GameObject;
+import com.nickyfantasy.marblesplash.Utils;
 import com.nickyfantasy.marblesplash.framework.Graphics;
+import com.nickyfantasy.marblesplash.framework.IGameObject;
 import com.nickyfantasy.marblesplash.framework.Pixmap;
 
 public class AndroidGraphics implements Graphics {
@@ -48,6 +52,10 @@ public class AndroidGraphics implements Graphics {
         try {
             in = assets.open(fileName);
             bitmap = BitmapFactory.decodeStream(in);
+            if (Utils.mScaleFrom1080 != 1) {
+            	bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * Utils.mScaleFrom1080), 
+            			(int) (bitmap.getHeight() * Utils.mScaleFrom1080), true);
+            }
             if (bitmap == null)
                 throw new RuntimeException("Couldn't load bitmap from asset '"
                         + fileName + "'");
@@ -120,5 +128,13 @@ public class AndroidGraphics implements Graphics {
     public int getHeight() {
         return frameBuffer.getHeight();
     }
+
+	@Override
+	public void drawGameObject(GameObject gameObject) {
+		Pixmap pixmap = gameObject.mPixmap;
+		if (pixmap != null) {
+			drawPixmap(pixmap, gameObject.mPosX, gameObject.mPosY);
+		}
+	}
 }
 

@@ -1,19 +1,17 @@
 package com.nickyfantasy.marblesplash;
 
-public class Marble {
+import com.nickyfantasy.marblesplash.framework.Pixmap;
+
+public class Marble extends GameObject{
 	
-	public enum MarbleColor {
-		RED(1), BLUE(2), YELLOW(3), GREEN(4);
-		
-		private int id;
-		
-		MarbleColor(int id) {
-			this.id = id;
-		}
-		
-		int getId() {
-			return id;
-		}
+	public Marble(Pixmap pixmap, int x, int y) {
+		super(pixmap, x, y);
+	}
+	
+	@Override
+	public void updateState(float deltaTime) {
+		super.updateState(deltaTime);
+		mPosY++;
 	}
 
 }

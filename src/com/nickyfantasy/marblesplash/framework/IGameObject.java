@@ -1,8 +1,7 @@
-package com.nickyfantasy.marblesplash;
+package com.nickyfantasy.marblesplash.framework;
 
-import com.nickyfantasy.marblesplash.framework.Pixmap;
 
-public interface TouchableItem {
+public interface IGameObject {
 	
 	boolean isTouchInBounds(int x, int y);
 	int getX();

@@ -10,13 +10,19 @@ import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
 import com.nickyfantasy.marblesplash.framework.Pixmap;
 import com.nickyfantasy.marblesplash.framework.Screen;
 
-public class MainMenuScreen extends Screen {
-	private GameObject mPlayButton;
+public class SelectLevelScreen extends Screen {
+	private GameObject mSelectLevelText;
+	private GameObject mLv1Button;
+	private GameObject mLv2Button;
+	private GameObject mLv3Button;
 	
-    public MainMenuScreen(Game game) {
+    public SelectLevelScreen(Game game) {
         super(game);  
-        mPlayButton = new GameObject(Assets.play, (game.getGraphics().getWidth() - Assets.play.getWidth()) / 2, 
-        		(game.getGraphics().getHeight() - Assets.play.getHeight()) / 2);
+        mSelectLevelText = new GameObject(Assets.selectLevel, (game.getGraphics().getWidth() - Assets.play.getWidth()) / 2, 
+        		Assets.selectLevel.getHeight());
+        mLv1Button = new GameObject(Assets.lv1, Assets.lv1.getWidth(), Assets.selectLevel.getHeight() * 3);
+        mLv2Button = new GameObject(Assets.lv2, Assets.lv1.getWidth() * 3, Assets.selectLevel.getHeight() * 3);
+        mLv3Button = new GameObject(Assets.lv3, Assets.lv1.getWidth() * 5, Assets.selectLevel.getHeight() * 3);
     }   
 
     public void update(float deltaTime) {
@@ -28,8 +34,8 @@ public class MainMenuScreen extends Screen {
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP) {
-                if(mPlayButton.isTouchInBounds(event.x, event.y)) {
-                    game.setScreen(new SelectLevelScreen(game));
+                if(mLv1Button.isTouchInBounds(event.x, event.y)) {
+                    game.setScreen(new GameScreen(game));
                     if(Settings.soundEnabled)
                         Assets.click.play(1);
                     return;
@@ -41,18 +47,10 @@ public class MainMenuScreen extends Screen {
     public void present(float deltaTime) {
         Graphics g = game.getGraphics();
         g.drawPixmap(Assets.background, 0, 0);
-        g.drawGameObject(mPlayButton);
-
-//        for (int i = 0; i < 6; i++) {
-//        	int marbleColor = i % 4 + 1; 
-//        	Pixmap marbleAsset = null;
-//        	if (marbleColor == MarbleColor.RED.getId()) marbleAsset = Assets.redMarble;
-//        	if (marbleColor == MarbleColor.YELLOW.getId()) marbleAsset = Assets.yellowMarble;
-//        	if (marbleColor == MarbleColor.GREEN.getId()) marbleAsset = Assets.greenMarble;
-//        	if (marbleColor == MarbleColor.BLUE.getId()) marbleAsset = Assets.blueMarble;
-//        			
-//        	g.drawPixmap(marbleAsset, Assets.play.getWidth() * i, Assets.play.getHeight() * i);
-//        }
+        g.drawGameObject(mSelectLevelText);
+        g.drawGameObject(mLv1Button);
+        g.drawGameObject(mLv2Button);
+        g.drawGameObject(mLv3Button);
     }
 
     public void pause() {        

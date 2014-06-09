@@ -1,5 +1,7 @@
 package com.nickyfantasy.marblesplash.framework;
 
+import com.nickyfantasy.marblesplash.GameObject;
+
 public interface Graphics {
     public static enum PixmapFormat {
         ARGB8888, ARGB4444, RGB565
@@ -19,6 +21,8 @@ public interface Graphics {
             int srcWidth, int srcHeight);
 
     public void drawPixmap(Pixmap pixmap, int x, int y);
+    
+    public void drawGameObject(GameObject gameObject);
 
     public int getWidth();
 
