@@ -2,6 +2,7 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.List;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.nickyfantasy.marblesplash.framework.Game;
@@ -46,8 +47,11 @@ public class GameScreen extends Screen {
     }
 
     public void present(float deltaTime) {
+    	Log.e("ZZZ", "present");
         Graphics g = game.getGraphics();
-        g.drawPixmap(Assets.background, 0, 0);
+        g.clear(Color.WHITE);
+//        g.drawPixmap(Assets.background, 0, 0);
+        Log.e("ZZZ", "present1");
         for (Row row : mWorld.mRows) {
         	for (Marble marble : row.mMarbleList) {
         		if (marble != null) {
@@ -57,7 +61,8 @@ public class GameScreen extends Screen {
         		}
         	}
         }
-        
+
+        Log.e("ZZZ", "present2");
     }
 
     public void pause() {        

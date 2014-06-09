@@ -18,11 +18,10 @@ public class SelectLevelScreen extends Screen {
 	
     public SelectLevelScreen(Game game) {
         super(game);  
-        mSelectLevelText = new GameObject(Assets.selectLevel, (game.getGraphics().getWidth() - Assets.play.getWidth()) / 2, 
-        		Assets.selectLevel.getHeight());
-        mLv1Button = new GameObject(Assets.lv1, Assets.lv1.getWidth(), Assets.selectLevel.getHeight() * 3);
-        mLv2Button = new GameObject(Assets.lv2, Assets.lv1.getWidth() * 3, Assets.selectLevel.getHeight() * 3);
-        mLv3Button = new GameObject(Assets.lv3, Assets.lv1.getWidth() * 5, Assets.selectLevel.getHeight() * 3);
+        mSelectLevelText = new GameObject(Assets.selectLevel, (Dimen.deviceWidth - Assets.selectLevel.getWidth()) / 2, 0);
+        mLv1Button = new GameObject(Assets.lv1, 0, Assets.selectLevel.getHeight());
+        mLv2Button = new GameObject(Assets.lv2, Assets.lv1.getWidth(), Assets.selectLevel.getHeight());
+        mLv3Button = new GameObject(Assets.lv3, Assets.lv1.getWidth() * 2, Assets.selectLevel.getHeight());
     }   
 
     public void update(float deltaTime) {

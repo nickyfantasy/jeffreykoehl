@@ -9,7 +9,7 @@ public class MarbleFactory {
 	public static Marble createRandomMarble() {
 		Random rand = new Random();
 		int id = rand.nextInt(4) + 1;
-		return new Marble(getPixmap(MarbleColor.getColor(id)), 0, 0);
+		return new Marble(getPixmap(MarbleColor.getColor(id)), 0, -Assets.redMarble.getHeight());
 	}
 	
 	public static Pixmap getPixmap(MarbleColor color) {

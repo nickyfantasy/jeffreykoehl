@@ -26,6 +26,7 @@ public class Row extends GameObject {
 	
 	public void insertMarble(Marble marble) {
 		mMarbleList[mMarbleIndexToInsert++] = marble;
+		if (mMarbleIndexToInsert == 10) mMarbleIndexToInsert = 0;
 		marble.mPosX = mPosX;
 	}
 

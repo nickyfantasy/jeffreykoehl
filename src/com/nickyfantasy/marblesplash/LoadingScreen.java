@@ -26,7 +26,7 @@ public class LoadingScreen extends Screen {
         Assets.eat = game.getAudio().newSound("eat.ogg");
         Assets.bitten = game.getAudio().newSound("bitten.ogg");
 //        Settings.load(game.getFileIO());
-        game.setScreen(new MainMenuScreen(game));
+        game.setScreen(new GameScreen(game));
     }
     
     public void present(float deltaTime) {

@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.nickyfantasy.marblesplash.Utils;
+import com.nickyfantasy.marblesplash.Dimen;
 import com.nickyfantasy.marblesplash.framework.Audio;
 import com.nickyfantasy.marblesplash.framework.FileIO;
 import com.nickyfantasy.marblesplash.framework.Game;
@@ -72,9 +72,9 @@ public abstract class AndroidGame extends Activity implements Game {
             frameBufferWidth = metrics.widthPixels;
             frameBufferHeight = metrics.heightPixels;
         }
-        Utils.mDeviceWidth = frameBufferWidth;
-        Utils.mDeviceHeight = frameBufferHeight;
-        Utils.mScaleFrom1080 = frameBufferHeight / 1080f;
+        Dimen.deviceWidth = frameBufferWidth;
+        Dimen.deviceHeight = frameBufferHeight;
+        Dimen.scaleRatio = frameBufferHeight / 1080f;
         Log.d("ZZZ", "display width = " + frameBufferWidth);
         Log.d("ZZZ", "display height = " + frameBufferHeight);
 //        int frameBufferWidth = 1200;
