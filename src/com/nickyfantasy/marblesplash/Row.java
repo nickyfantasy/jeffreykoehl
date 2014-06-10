@@ -1,15 +1,19 @@
 package com.nickyfantasy.marblesplash;
 
+import android.util.Log;
+
 import com.nickyfantasy.marblesplash.framework.Pixmap;
 
 public class Row extends GameObject {
 
 	// LinkedList<Marble> mMarbleList = new LinkedList<Marble>();
-	Marble[] mMarbleList = new Marble[10];
+	Marble[] mMarbleList;
 	int mMarbleIndexToInsert = 0;
+	int mDestroyedMarbleIndex = 0;
 
-	public Row(Pixmap pixmap, int width, int height, int x, int y) {
+	public Row(Pixmap pixmap, int width, int height, int x, int y, int maxSize) {
 		super(pixmap, width, height, x, y);
+		mMarbleList = new Marble[maxSize];
 	}
 
 	@Override
@@ -17,17 +21,41 @@ public class Row extends GameObject {
 		super.updateState(deltaTime);
 		for (Marble marble : mMarbleList) {
 			if (marble != null) {
-				marble.updateState(deltaTime);
+				if (!marble.mDestroyed) {
+					marble.updateState(deltaTime);
+				}
 			} else {
 				break;
 			}
 		}
 	}
-	
-	public void insertMarble(Marble marble) {
-		mMarbleList[mMarbleIndexToInsert++] = marble;
-		if (mMarbleIndexToInsert == 10) mMarbleIndexToInsert = 0;
-		marble.mPosX = mPosX;
+
+	public void insertMarble(MarbleColor color, int speed) {
+		Marble marble = reuseMarble(color, speed);
+		if (marble == null) {
+			marble = createMarble(color, speed);
+			mMarbleList[mMarbleIndexToInsert++] = marble;
+			if (mMarbleIndexToInsert == mMarbleList.length)
+				mMarbleIndexToInsert = 0;
+		}
+	}
+
+	private Marble createMarble(MarbleColor color, int speed) {
+		Log.e("ZZZ", "create marble");
+		return new Marble(color, speed, mPosX);
+	}
+
+	private Marble reuseMarble(MarbleColor color, int speed) {
+		for (int i = 0; i < mMarbleList.length; i++) {
+			Marble marble = mMarbleList[i];
+			if (marble == null)
+				return null;
+			if (marble.mDestroyed) {
+				marble.setMarbleProperties(color, speed);
+				return marble;
+			}
+		}
+		return null;
 	}
 
 }

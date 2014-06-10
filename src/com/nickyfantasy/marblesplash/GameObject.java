@@ -15,8 +15,10 @@ public class GameObject{
 		mPixmap = pixmap;
 		mPosX = x;
 		mPosY = y;
-		mWidth = pixmap.getWidth();
-		mHeight = pixmap.getHeight();
+		if (pixmap != null) {
+			mWidth = pixmap.getWidth();
+			mHeight = pixmap.getHeight();
+		}
 	}
 	
 	public GameObject(Pixmap pixmap, int width, int height, int x, int y) {

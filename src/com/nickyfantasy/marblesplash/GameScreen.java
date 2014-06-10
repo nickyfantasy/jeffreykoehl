@@ -47,15 +47,17 @@ public class GameScreen extends Screen {
     }
 
     public void present(float deltaTime) {
-    	Log.e("ZZZ", "present");
+//    	Log.e("ZZZ", "present");
         Graphics g = game.getGraphics();
         g.clear(Color.WHITE);
 //        g.drawPixmap(Assets.background, 0, 0);
-        Log.e("ZZZ", "present1");
+//        Log.e("ZZZ", "present1");
         for (Row row : mWorld.mRows) {
         	for (Marble marble : row.mMarbleList) {
         		if (marble != null) {
-        			g.drawGameObject(marble);
+        			if (!marble.mDestroyed) {
+        				g.drawGameObject(marble);
+        			}
         		} else {
         			break;
         		}
