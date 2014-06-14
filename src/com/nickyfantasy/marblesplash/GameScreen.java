@@ -49,8 +49,8 @@ public class GameScreen extends Screen {
     public void present(float deltaTime) {
 //    	Log.e("ZZZ", "present");
         Graphics g = game.getGraphics();
-        g.clear(Color.WHITE);
-//        g.drawPixmap(Assets.background, 0, 0);
+//        g.clear(Color.WHITE);
+        g.drawPixmap(Assets.background, 0, 0);
 //        Log.e("ZZZ", "present1");
         for (Row row : mWorld.mRows) {
         	for (Marble marble : row.mMarbleList) {
@@ -64,7 +64,7 @@ public class GameScreen extends Screen {
         	}
         }
 
-        Log.e("ZZZ", "present2");
+//        Log.e("ZZZ", "present2");
     }
 
     public void pause() {        

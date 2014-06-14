@@ -12,16 +12,16 @@ public class LoadingScreen extends Screen {
 
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
-        Assets.background = g.newPixmap("main_bg.jpg", PixmapFormat.RGB565);
-        Assets.redMarble = g.newPixmap("red.png", PixmapFormat.ARGB4444);
-        Assets.greenMarble = g.newPixmap("green.png", PixmapFormat.ARGB4444);
-        Assets.yellowMarble = g.newPixmap("yellow.png", PixmapFormat.ARGB4444);
-        Assets.blueMarble = g.newPixmap("blue.png", PixmapFormat.ARGB4444);
-        Assets.play = g.newPixmap("play.png", PixmapFormat.ARGB4444);
-        Assets.lv1 = g.newPixmap("lv1.png", PixmapFormat.ARGB4444);
-        Assets.lv2 = g.newPixmap("lv2.png", PixmapFormat.ARGB4444);
-        Assets.lv3 = g.newPixmap("lv3.png", PixmapFormat.ARGB4444);
-        Assets.selectLevel = g.newPixmap("select_level.png", PixmapFormat.ARGB4444);
+        Assets.background = g.newPixmap("main_bg3.png", PixmapFormat.RGB565, true);
+        Assets.redMarble = g.newPixmap("red.png", PixmapFormat.RGB565, false);
+        Assets.greenMarble = g.newPixmap("green.png", PixmapFormat.RGB565, false);
+        Assets.yellowMarble = g.newPixmap("yellow.png", PixmapFormat.RGB565, false);
+        Assets.blueMarble = g.newPixmap("blue.png", PixmapFormat.RGB565, false);
+        Assets.play = g.newPixmap("play.png", PixmapFormat.RGB565, false);
+        Assets.lv1 = g.newPixmap("lv1.png", PixmapFormat.RGB565, false);
+        Assets.lv2 = g.newPixmap("lv2.png", PixmapFormat.RGB565, false);
+        Assets.lv3 = g.newPixmap("lv3.png", PixmapFormat.RGB565, false);
+        Assets.selectLevel = g.newPixmap("select_level.png", PixmapFormat.RGB565, false);
         Assets.click = game.getAudio().newSound("click.ogg");
         Assets.eat = game.getAudio().newSound("eat.ogg");
         Assets.bitten = game.getAudio().newSound("bitten.ogg");

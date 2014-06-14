@@ -1,7 +1,10 @@
 package com.nickyfantasy.marblesplash.framework.impl;
 
+import com.nickyfantasy.marblesplash.R;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -30,19 +33,33 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
     public void run() {
         Rect dstRect = new Rect();
         long startTime = System.nanoTime();
+        long beginTime = System.nanoTime();
+        int frameCount = 0;
+        int totalFrameCount = 0;
+        long realBeginTime = System.nanoTime();
         while(running) {  
             if(!holder.getSurface().isValid())
                 continue;           
             
             float deltaTime = (System.nanoTime()-startTime) / 1000000000.0f;
             startTime = System.nanoTime();
+            frameCount++;
+            totalFrameCount++;
+            
+            if ((startTime - beginTime) > 1000000000.0f) {
+            	Log.e("fps", "fps = " + frameCount);
+            	Log.e("fps", "total fps = " + 1.0f * totalFrameCount / ((System.nanoTime() - realBeginTime) / 1000000000));
+            	beginTime += 1000000000.0f;
+            	frameCount = 0;
+            }
 
+            Canvas canvas = holder.lockCanvas();
+            ((AndroidGraphics) game.getGraphics()).canvas = canvas;
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().present(deltaTime);
             
-            Canvas canvas = holder.lockCanvas();
-            canvas.getClipBounds(dstRect);
-            canvas.drawBitmap(framebuffer, null, dstRect, null);
+//            canvas.getClipBounds(dstRect);
+//            canvas.drawBitmap(framebuffer, null, dstRect, null);
             holder.unlockCanvasAndPost(canvas);
         }
     }

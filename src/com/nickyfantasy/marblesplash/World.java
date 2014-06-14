@@ -44,17 +44,17 @@ public class World {
 		insertRandomMarble(rowIndex);
 	}
 	
-	private void insertMarbleToRandomRow(MarbleColor color) {
+	private void insertMarbleToRandomRow(int color) {
 		int rowIndex = mRandom.nextInt(6);
 		insertMarble(rowIndex, color);
 	}
 	
 	private void insertRandomMarble(int rowIndex) {
-		int id = mRandom.nextInt(4) + 1;
-		insertMarble(rowIndex, MarbleColor.getColor(id));
+		int color = mRandom.nextInt(MarbleColor.MARBLE_TYPE_COUNT) + 1;
+		insertMarble(rowIndex, color);
 	}
 	
-	private void insertMarble(int rowIndex, MarbleColor color) {
+	private void insertMarble(int rowIndex, int color) {
 		mRows[rowIndex].insertMarble(color, mMarbleSpeed);
 	}
 

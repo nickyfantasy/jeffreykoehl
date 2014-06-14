@@ -7,7 +7,7 @@ public interface Graphics {
         ARGB8888, ARGB4444, RGB565
     }
 
-    public Pixmap newPixmap(String fileName, PixmapFormat format);
+    public Pixmap newPixmap(String fileName, PixmapFormat format, boolean isBg);
 
     public void clear(int color);
 
@@ -21,6 +21,8 @@ public interface Graphics {
             int srcWidth, int srcHeight);
 
     public void drawPixmap(Pixmap pixmap, int x, int y);
+    
+    public void drawPixmapBg(Pixmap pixmap);
     
     public void drawGameObject(GameObject gameObject);
 

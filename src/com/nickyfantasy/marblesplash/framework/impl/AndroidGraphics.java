@@ -34,8 +34,12 @@ public class AndroidGraphics implements Graphics {
         this.canvas = new Canvas(frameBuffer);
         this.paint = new Paint();
     }
+    
+    public void setCanvas(Canvas canvas) {
+    	this.canvas = canvas;
+    }
 
-    public Pixmap newPixmap(String fileName, PixmapFormat format) {
+    public Pixmap newPixmap(String fileName, PixmapFormat format, boolean isBg) {
         Config config = null;
         if (format == PixmapFormat.RGB565)
             config = Config.RGB_565;
@@ -52,6 +56,9 @@ public class AndroidGraphics implements Graphics {
         try {
             in = assets.open(fileName);
             bitmap = BitmapFactory.decodeStream(in);
+            if (isBg) {
+            	bitmap = Bitmap.createScaledBitmap(bitmap, Dimen.deviceWidth, Dimen.deviceHeight, true);
+            }
             if (Dimen.scaleRatio != 1) {
             	bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * Dimen.scaleRatio), 
             			(int) (bitmap.getHeight() * Dimen.scaleRatio), true);
@@ -115,6 +122,15 @@ public class AndroidGraphics implements Graphics {
         dstRect.bottom = y + srcHeight - 1;
 
         canvas.drawBitmap(((AndroidPixmap) pixmap).bitmap, srcRect, dstRect, null);
+    }
+    
+    public void drawPixmapBg(Pixmap pixmap) {
+
+        dstRect.left = 0;
+        dstRect.top = 0;
+        dstRect.right = Dimen.deviceWidth - 1;
+        dstRect.bottom = Dimen.deviceHeight - 1;
+        canvas.drawBitmap(((AndroidPixmap) pixmap).bitmap, null, dstRect, null);
     }
 
     public void drawPixmap(Pixmap pixmap, int x, int y) {

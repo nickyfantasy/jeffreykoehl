@@ -30,7 +30,7 @@ public class Row extends GameObject {
 		}
 	}
 
-	public void insertMarble(MarbleColor color, int speed) {
+	public void insertMarble(int color, int speed) {
 		Marble marble = reuseMarble(color, speed);
 		if (marble == null) {
 			marble = createMarble(color, speed);
@@ -40,12 +40,11 @@ public class Row extends GameObject {
 		}
 	}
 
-	private Marble createMarble(MarbleColor color, int speed) {
-		Log.e("ZZZ", "create marble");
+	private Marble createMarble(int color, int speed) {
 		return new Marble(color, speed, mPosX);
 	}
 
-	private Marble reuseMarble(MarbleColor color, int speed) {
+	private Marble reuseMarble(int color, int speed) {
 		for (int i = 0; i < mMarbleList.length; i++) {
 			Marble marble = mMarbleList[i];
 			if (marble == null)
