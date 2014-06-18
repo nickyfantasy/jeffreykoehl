@@ -29,7 +29,7 @@ public class MainMenuScreen extends Screen {
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP) {
                 if(mPlayButton.isTouchInBounds(event.x, event.y)) {
-                    game.setScreen(new SelectLevelScreen(game));
+                    game.setScreen(new SelectLevelScreen(game), R.drawable.main_bg3);
                     if(Settings.soundEnabled)
                         Assets.click.play(1);
                     return;
@@ -40,7 +40,7 @@ public class MainMenuScreen extends Screen {
 
     public void present(float deltaTime) {
         Graphics g = game.getGraphics();
-        g.drawPixmap(Assets.background, 0, 0);
+        g.clear();
         g.drawGameObject(mPlayButton);
 
 //        for (int i = 0; i < 6; i++) {

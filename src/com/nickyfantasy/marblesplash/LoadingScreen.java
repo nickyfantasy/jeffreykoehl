@@ -12,7 +12,7 @@ public class LoadingScreen extends Screen {
 
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
-        Assets.background = g.newPixmap("main_bg3.png", PixmapFormat.RGB565, true);
+//        Assets.background = g.newPixmap("main_bg3.png", PixmapFormat.RGB565, true);
         Assets.redMarble = g.newPixmap("red.png", PixmapFormat.RGB565, false);
         Assets.greenMarble = g.newPixmap("green.png", PixmapFormat.RGB565, false);
         Assets.yellowMarble = g.newPixmap("yellow.png", PixmapFormat.RGB565, false);
@@ -26,7 +26,7 @@ public class LoadingScreen extends Screen {
         Assets.eat = game.getAudio().newSound("eat.ogg");
         Assets.bitten = game.getAudio().newSound("bitten.ogg");
 //        Settings.load(game.getFileIO());
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new MainMenuScreen(game), R.drawable.main_bg3);
     }
     
     public void present(float deltaTime) {

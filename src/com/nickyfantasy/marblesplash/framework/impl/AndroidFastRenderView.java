@@ -22,6 +22,8 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
         this.game = game;
         this.framebuffer = framebuffer;
         this.holder = getHolder();
+        holder.setFormat(PixelFormat.TRANSPARENT);
+        setZOrderOnTop(true);
     }
 
     public void resume() { 

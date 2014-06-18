@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Bitmap.Config;
 import android.graphics.Point;
 import android.os.Build;
@@ -12,12 +13,13 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.nickyfantasy.marblesplash.Dimen;
+import com.nickyfantasy.marblesplash.R;
 import com.nickyfantasy.marblesplash.framework.Audio;
 import com.nickyfantasy.marblesplash.framework.FileIO;
 import com.nickyfantasy.marblesplash.framework.Game;
@@ -66,12 +68,12 @@ public abstract class AndroidGame extends Activity implements Game {
 	        } catch (NoSuchMethodError e) {
 	            Log.i("error", "it can't work");
 	        }
-        } else if (Build.VERSION.SDK_INT >= 11) {
+        } else {
         	DisplayMetrics metrics = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
             frameBufferWidth = metrics.widthPixels;
             frameBufferHeight = metrics.heightPixels;
-        }
+        } 
         Dimen.deviceWidth = frameBufferWidth;
         Dimen.deviceHeight = frameBufferHeight;
         Dimen.scaleRatio = frameBufferHeight / 1080f;
@@ -93,6 +95,9 @@ public abstract class AndroidGame extends Activity implements Game {
         audio = new AndroidAudio(this);
         input = new AndroidInput(this, renderView, scaleX, scaleY);
         screen = getStartScreen();
+//        FrameLayout frameLayout=  new FrameLayout(this);
+//        frameLayout.addView(renderView);
+//        frameLayout.setBackgroundResource(R.drawable.main_bg3);
         setContentView(renderView);
         
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
@@ -134,15 +139,23 @@ public abstract class AndroidGame extends Activity implements Game {
         return audio;
     }
 
-    public void setScreen(Screen screen) {
+    public void setScreen(Screen screen, final int backgroundResId) {
         if (screen == null)
             throw new IllegalArgumentException("Screen must not be null");
+        runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				renderView.setBackgroundResource(backgroundResId);
+			}
+		});
 
         this.screen.pause();
         this.screen.dispose();
         screen.resume();
         screen.update(0);
         this.screen = screen;
+
     }
 
     public Screen getCurrentScreen() {

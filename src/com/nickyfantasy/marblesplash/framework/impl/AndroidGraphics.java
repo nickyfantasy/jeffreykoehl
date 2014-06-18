@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -33,10 +34,6 @@ public class AndroidGraphics implements Graphics {
         this.frameBuffer = frameBuffer;
         this.canvas = new Canvas(frameBuffer);
         this.paint = new Paint();
-    }
-    
-    public void setCanvas(Canvas canvas) {
-    	this.canvas = canvas;
     }
 
     public Pixmap newPixmap(String fileName, PixmapFormat format, boolean isBg) {
@@ -88,9 +85,13 @@ public class AndroidGraphics implements Graphics {
         return new AndroidPixmap(bitmap, format);
     }
 
-    public void clear(int color) {
-        canvas.drawRGB((color & 0xff0000) >> 16, (color & 0xff00) >> 8,
-                (color & 0xff));
+//    public void clear(int color) {
+//        canvas.drawRGB((color & 0xff0000) >> 16, (color & 0xff00) >> 8,
+//                (color & 0xff));
+//    }
+    
+    public void clear() {
+    	canvas.drawColor(0, Mode.CLEAR);
     }
 
     public void drawPixel(int x, int y, int color) {

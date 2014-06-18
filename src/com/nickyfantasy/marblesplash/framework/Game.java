@@ -9,7 +9,7 @@ public interface Game {
 
     public Audio getAudio();
 
-    public void setScreen(Screen screen);
+    public void setScreen(Screen screen, int backgroundResId);
 
     public Screen getCurrentScreen();
 

@@ -34,7 +34,7 @@ public class SelectLevelScreen extends Screen {
             TouchEvent event = touchEvents.get(i);
             if(event.type == TouchEvent.TOUCH_UP) {
                 if(mLv1Button.isTouchInBounds(event.x, event.y)) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game), R.drawable.main_bg3);
                     if(Settings.soundEnabled)
                         Assets.click.play(1);
                     return;
@@ -45,7 +45,7 @@ public class SelectLevelScreen extends Screen {
 
     public void present(float deltaTime) {
         Graphics g = game.getGraphics();
-        g.drawPixmap(Assets.background, 0, 0);
+        g.clear();
         g.drawGameObject(mSelectLevelText);
         g.drawGameObject(mLv1Button);
         g.drawGameObject(mLv2Button);

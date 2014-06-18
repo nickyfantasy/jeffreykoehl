@@ -2,14 +2,16 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.List;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.util.Log;
+import android.graphics.PorterDuff.Mode;
 
 import com.nickyfantasy.marblesplash.framework.Game;
 import com.nickyfantasy.marblesplash.framework.Graphics;
 import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
-import com.nickyfantasy.marblesplash.framework.Pixmap;
 import com.nickyfantasy.marblesplash.framework.Screen;
+import com.nickyfantasy.marblesplash.framework.impl.AndroidGraphics;
+import com.nickyfantasy.marblesplash.framework.impl.AndroidPixmap;
 
 public class GameScreen extends Screen {
     enum GameState {
@@ -22,7 +24,7 @@ public class GameScreen extends Screen {
 	private GameState state = GameState.Running;
 	
     public GameScreen(Game game) {
-        super(game);  
+        super(game);
     }   
 
     public void update(float deltaTime) {
@@ -47,11 +49,8 @@ public class GameScreen extends Screen {
     }
 
     public void present(float deltaTime) {
-//    	Log.e("ZZZ", "present");
         Graphics g = game.getGraphics();
-//        g.clear(Color.WHITE);
-        g.drawPixmap(Assets.background, 0, 0);
-//        Log.e("ZZZ", "present1");
+        g.clear();
         for (Row row : mWorld.mRows) {
         	for (Marble marble : row.mMarbleList) {
         		if (marble != null) {
@@ -63,8 +62,6 @@ public class GameScreen extends Screen {
         		}
         	}
         }
-
-//        Log.e("ZZZ", "present2");
     }
 
     public void pause() {        

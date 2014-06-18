@@ -9,7 +9,7 @@ public interface Graphics {
 
     public Pixmap newPixmap(String fileName, PixmapFormat format, boolean isBg);
 
-    public void clear(int color);
+    public void clear();
 
     public void drawPixel(int x, int y, int color);
 

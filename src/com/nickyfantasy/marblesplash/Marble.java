@@ -18,8 +18,6 @@ public class Marble extends GameObject {
 	public void updateState(float deltaTime) {
 		super.updateState(deltaTime);
 		mPosY += (deltaTime * mSpeed);
-//		Log.e("ZZZ", "mPosY = " + deltaTime * mSpeed);
-//		mPosY += 5;
 		if (mPosY > Dimen.deviceHeight) {
 			mDestroyed = true;
 		}
