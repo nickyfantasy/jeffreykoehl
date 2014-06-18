@@ -2,16 +2,10 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
-
 import com.nickyfantasy.marblesplash.framework.Game;
 import com.nickyfantasy.marblesplash.framework.Graphics;
 import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
 import com.nickyfantasy.marblesplash.framework.Screen;
-import com.nickyfantasy.marblesplash.framework.impl.AndroidGraphics;
-import com.nickyfantasy.marblesplash.framework.impl.AndroidPixmap;
 
 public class GameScreen extends Screen {
     enum GameState {

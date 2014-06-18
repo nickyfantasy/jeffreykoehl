@@ -12,15 +12,15 @@ import android.view.SurfaceView;
 
 public class AndroidFastRenderView extends SurfaceView implements Runnable {
     AndroidGame game;
-    Bitmap framebuffer;
+    AndroidGraphics graphics;
     Thread renderThread = null;
     SurfaceHolder holder;
     volatile boolean running = false;
 
-    public AndroidFastRenderView(AndroidGame game, Bitmap framebuffer) {
+    public AndroidFastRenderView(AndroidGame game) {
         super(game);
         this.game = game;
-        this.framebuffer = framebuffer;
+        this.graphics = (AndroidGraphics) game.getGraphics();
         this.holder = getHolder();
         holder.setFormat(PixelFormat.TRANSPARENT);
         setZOrderOnTop(true);
@@ -33,7 +33,6 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
     }      
 
     public void run() {
-        Rect dstRect = new Rect();
         long startTime = System.nanoTime();
         long beginTime = System.nanoTime();
         int frameCount = 0;
@@ -56,7 +55,7 @@ public class AndroidFastRenderView extends SurfaceView implements Runnable {
             }
 
             Canvas canvas = holder.lockCanvas();
-            ((AndroidGraphics) game.getGraphics()).canvas = canvas;
+            graphics.canvas = canvas;
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().present(deltaTime);
             

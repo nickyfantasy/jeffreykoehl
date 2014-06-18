@@ -23,16 +23,13 @@ import com.nickyfantasy.marblesplash.framework.Pixmap;
 
 public class AndroidGraphics implements Graphics {
     AssetManager assets;
-    Bitmap frameBuffer;
     Canvas canvas;
     Paint paint;
     Rect srcRect = new Rect();
     Rect dstRect = new Rect();
 
-    public AndroidGraphics(AssetManager assets, Bitmap frameBuffer) {
+    public AndroidGraphics(AssetManager assets) {
         this.assets = assets;
-        this.frameBuffer = frameBuffer;
-        this.canvas = new Canvas(frameBuffer);
         this.paint = new Paint();
     }
 
@@ -136,14 +133,6 @@ public class AndroidGraphics implements Graphics {
 
     public void drawPixmap(Pixmap pixmap, int x, int y) {
         canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, y, null);
-    }
-
-    public int getWidth() {
-        return frameBuffer.getWidth();
-    }
-
-    public int getHeight() {
-        return frameBuffer.getHeight();
     }
 
 	@Override

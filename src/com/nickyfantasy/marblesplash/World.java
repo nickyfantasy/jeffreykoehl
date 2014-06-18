@@ -7,7 +7,7 @@ import android.util.Log;
 public class World {
 	
 	static final float TICK_INITIAL = 0.5f; //secs to add a new marble
-	
+	static int ROW_WIDTH = Dimen.apply(200);
 	public Row[] mRows = new Row[6];
 	private float tickTime = 0;
 	private Random mRandom = new Random();
@@ -15,9 +15,16 @@ public class World {
 	private int mMaxMarbleInRow = 12;
 	
 	public World() {
+		boolean narrow = (1.0f * Dimen.deviceWidth / Dimen.deviceHeight) <= 1.5;
+		if (narrow) {
+			
+		} else {
+			
+		}
+		int leftRightSpace = (Dimen.deviceWidth - ROW_WIDTH * 6) / 2;
 		for (int i = 0; i < 6; i++) {
 			//TODO
-			mRows[i] = new Row(null, Assets.redMarble.getWidth(), Dimen.deviceHeight, Assets.redMarble.getWidth() * (i + 1), 0, mMaxMarbleInRow);
+			mRows[i] = new Row(null, ROW_WIDTH, Dimen.deviceHeight, ROW_WIDTH * i + leftRightSpace, 0, mMaxMarbleInRow);
 		}
 	}
 	

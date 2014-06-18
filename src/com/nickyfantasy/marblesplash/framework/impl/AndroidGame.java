@@ -81,16 +81,16 @@ public abstract class AndroidGame extends Activity implements Game {
         Log.d("ZZZ", "display height = " + frameBufferHeight);
 //        int frameBufferWidth = 1200;
 //        int frameBufferHeight = 800;
-        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
-                frameBufferHeight, Config.RGB_565);
+//        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
+//                frameBufferHeight, Config.RGB_565);
         
         float scaleX = (float) frameBufferWidth
                 / getWindowManager().getDefaultDisplay().getWidth();
         float scaleY = (float) frameBufferHeight
                 / getWindowManager().getDefaultDisplay().getHeight();
 
-        renderView = new AndroidFastRenderView(this, frameBuffer);
-        graphics = new AndroidGraphics(getAssets(), frameBuffer);
+        graphics = new AndroidGraphics(getAssets());
+        renderView = new AndroidFastRenderView(this);
         fileIO = new AndroidFileIO(this);
         audio = new AndroidAudio(this);
         input = new AndroidInput(this, renderView, scaleX, scaleY);

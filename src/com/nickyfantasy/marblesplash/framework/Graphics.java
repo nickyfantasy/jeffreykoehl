@@ -25,8 +25,4 @@ public interface Graphics {
     public void drawPixmapBg(Pixmap pixmap);
     
     public void drawGameObject(GameObject gameObject);
-
-    public int getWidth();
-
-    public int getHeight();
 }

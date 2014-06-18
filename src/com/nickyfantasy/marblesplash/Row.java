@@ -41,7 +41,7 @@ public class Row extends GameObject {
 	}
 
 	private Marble createMarble(int color, int speed) {
-		return new Marble(color, speed, mPosX);
+		return new Marble(color, speed, mPosX + ((mWidth - Assets.redMarble.getWidth()) / 2));
 	}
 
 	private Marble reuseMarble(int color, int speed) {

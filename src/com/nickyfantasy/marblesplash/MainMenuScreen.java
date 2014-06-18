@@ -15,8 +15,8 @@ public class MainMenuScreen extends Screen {
 	
     public MainMenuScreen(Game game) {
         super(game);  
-        mPlayButton = new GameObject(Assets.play, (game.getGraphics().getWidth() - Assets.play.getWidth()) / 2, 
-        		(game.getGraphics().getHeight() - Assets.play.getHeight()) / 2);
+        mPlayButton = new GameObject(Assets.play, (Dimen.deviceWidth - Assets.play.getWidth()) / 2, 
+        		(Dimen.deviceHeight - Assets.play.getHeight()) / 2);
     }   
 
     public void update(float deltaTime) {
