@@ -13,10 +13,19 @@ public class LoadingScreen extends Screen {
     public void update(float deltaTime) {
         Graphics g = game.getGraphics();
 //        Assets.background = g.newPixmap("main_bg3.png", PixmapFormat.RGB565, true);
+
+        Assets.redNom = g.newPixmap("red_nom.png", PixmapFormat.RGB565, false);
+        Assets.greenNom = g.newPixmap("green_nom.png", PixmapFormat.RGB565, false);
+        Assets.yellowNom = g.newPixmap("yellow_nom.png", PixmapFormat.RGB565, false);
+        Assets.blueNom = g.newPixmap("blue_nom.png", PixmapFormat.RGB565, false);
         Assets.redMarble = g.newPixmap("red.png", PixmapFormat.RGB565, false);
         Assets.greenMarble = g.newPixmap("green.png", PixmapFormat.RGB565, false);
         Assets.yellowMarble = g.newPixmap("yellow.png", PixmapFormat.RGB565, false);
         Assets.blueMarble = g.newPixmap("blue.png", PixmapFormat.RGB565, false);
+        Assets.redMarbleP = g.newPixmap("red_pressed.png", PixmapFormat.RGB565, false);
+        Assets.greenMarbleP = g.newPixmap("green_pressed.png", PixmapFormat.RGB565, false);
+        Assets.yellowMarbleP = g.newPixmap("yellow_pressed.png", PixmapFormat.RGB565, false);
+        Assets.blueMarbleP = g.newPixmap("blue_pressed.png", PixmapFormat.RGB565, false);
         Assets.play = g.newPixmap("play.png", PixmapFormat.RGB565, false);
         Assets.lv1 = g.newPixmap("lv1.png", PixmapFormat.RGB565, false);
         Assets.lv2 = g.newPixmap("lv2.png", PixmapFormat.RGB565, false);

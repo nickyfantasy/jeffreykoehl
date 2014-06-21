@@ -16,9 +16,17 @@ public class GameScreen extends Screen {
     }
     private World mWorld = new World();
 	private GameState state = GameState.Running;
+	private GameObject mBlueNom;
+	private GameObject mRedNom;
+	private GameObject mYellowNom;
+	private GameObject mGreenNom;
 	
     public GameScreen(Game game) {
         super(game);
+        mBlueNom = new GameObject(Assets.blueNom, 0, 0);
+        mRedNom = new GameObject(Assets.redNom, Dimen.deviceWidth - Assets.redNom.getWidth(), 0);
+        mYellowNom = new GameObject(Assets.yellowNom, 0, Dimen.deviceHeight - Assets.yellowNom.getHeight());
+        mGreenNom = new GameObject(Assets.greenNom, Dimen.deviceWidth - Assets.greenNom.getWidth(), Dimen.deviceHeight - Assets.greenNom.getHeight());
     }   
 
     public void update(float deltaTime) {
@@ -56,6 +64,10 @@ public class GameScreen extends Screen {
         		}
         	}
         }
+        g.drawGameObject(mBlueNom);
+        g.drawGameObject(mRedNom);
+        g.drawGameObject(mYellowNom);
+        g.drawGameObject(mGreenNom);
     }
 
     public void pause() {        

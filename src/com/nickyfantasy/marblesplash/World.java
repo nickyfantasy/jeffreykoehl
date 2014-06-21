@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class World {
 	
-	static final float TICK_INITIAL = 0.5f; //secs to add a new marble
+	static final float TICK_INITIAL = 0.7f; //secs to add a new marble
 	static int ROW_WIDTH = Dimen.apply(200);
 	public Row[] mRows = new Row[6];
 	private float tickTime = 0;
@@ -35,13 +35,14 @@ public class World {
 		tickTime += deltaTime;
 		while (tickTime > TICK_INITIAL) {
             tickTime -= TICK_INITIAL;
-            insertRandomMarble(0);
-            insertRandomMarble(1);
-            insertRandomMarble(2);
-            insertRandomMarble(3);
-            insertRandomMarble(4);
-            insertRandomMarble(5);
+//            insertRandomMarble(0);
+//            insertRandomMarble(1);
+//            insertRandomMarble(2);
+//            insertRandomMarble(3);
+//            insertRandomMarble(4);
+//            insertRandomMarble(5);
 //            insertMarbleToRandomRow(marble);
+            insertRandomMarbleToRandomRow();
 		}
 		
 	}
