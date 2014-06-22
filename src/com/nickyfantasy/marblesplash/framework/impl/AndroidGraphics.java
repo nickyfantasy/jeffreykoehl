@@ -18,7 +18,6 @@ import android.util.Log;
 import com.nickyfantasy.marblesplash.GameObject;
 import com.nickyfantasy.marblesplash.Dimen;
 import com.nickyfantasy.marblesplash.framework.Graphics;
-import com.nickyfantasy.marblesplash.framework.IGameObject;
 import com.nickyfantasy.marblesplash.framework.Pixmap;
 
 public class AndroidGraphics implements Graphics {

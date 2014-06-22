@@ -7,13 +7,16 @@ import com.nickyfantasy.marblesplash.framework.Pixmap;
 public class Row extends GameObject {
 
 	// LinkedList<Marble> mMarbleList = new LinkedList<Marble>();
+	public static final int TOUCH_LEFT_PADDING = Dimen.apply(60); //this need to be calculated again with marble size
 	Marble[] mMarbleList;
 	int mMarbleIndexToInsert = 0;
 	int mDestroyedMarbleIndex = 0;
+	final int mMarbleXPos;
 
 	public Row(Pixmap pixmap, int width, int height, int x, int y, int maxSize) {
 		super(pixmap, width, height, x, y);
 		mMarbleList = new Marble[maxSize];
+		mMarbleXPos = x + ((width - Assets.redMarble.getWidth()) / 2);
 	}
 
 	@Override
@@ -21,7 +24,7 @@ public class Row extends GameObject {
 		super.updateState(deltaTime);
 		for (Marble marble : mMarbleList) {
 			if (marble != null) {
-				if (!marble.mDestroyed) {
+				if (marble.mState != MarbleState.DESTROYED) {
 					marble.updateState(deltaTime);
 				}
 			} else {
@@ -41,7 +44,8 @@ public class Row extends GameObject {
 	}
 
 	private Marble createMarble(int color, int speed) {
-		return new Marble(color, speed, mPosX + ((mWidth - Assets.redMarble.getWidth()) / 2));
+		Log.e("ZZZ", "createMarble");
+		return new Marble(color, speed, mMarbleXPos);
 	}
 
 	private Marble reuseMarble(int color, int speed) {
@@ -49,12 +53,20 @@ public class Row extends GameObject {
 			Marble marble = mMarbleList[i];
 			if (marble == null)
 				return null;
-			if (marble.mDestroyed) {
-				marble.setMarbleProperties(color, speed);
+			if (marble.mState == MarbleState.DESTROYED) {
+				marble.setMarbleProperties(color, speed, mMarbleXPos);
 				return marble;
 			}
 		}
 		return null;
+	}
+	
+	public boolean isTouchInBounds(int x, int y) {
+	    boolean isTouch = false;  
+	    if (x >= mPosX - TOUCH_LEFT_PADDING && x <= mPosX + mWidth + TOUCH_LEFT_PADDING) {  
+	        isTouch = true;
+	    }  
+	    return isTouch;  
 	}
 
 }

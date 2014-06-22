@@ -2,12 +2,15 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.Random;
 
+import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
+
 import android.util.Log;
 
 public class World {
 	
 	static final float TICK_INITIAL = 0.7f; //secs to add a new marble
-	static int ROW_WIDTH = Dimen.apply(200);
+	static final int MIN_SWIPE_DIST= Dimen.apply(20);
+	static final int ROW_WIDTH = Dimen.apply(200);
 	public Row[] mRows = new Row[6];
 	private float tickTime = 0;
 	private Random mRandom = new Random();
@@ -35,14 +38,14 @@ public class World {
 		tickTime += deltaTime;
 		while (tickTime > TICK_INITIAL) {
             tickTime -= TICK_INITIAL;
-//            insertRandomMarble(0);
-//            insertRandomMarble(1);
-//            insertRandomMarble(2);
-//            insertRandomMarble(3);
-//            insertRandomMarble(4);
-//            insertRandomMarble(5);
+            insertRandomMarble(0);
+            insertRandomMarble(1);
+            insertRandomMarble(2);
+            insertRandomMarble(3);
+            insertRandomMarble(4);
+            insertRandomMarble(5);
 //            insertMarbleToRandomRow(marble);
-            insertRandomMarbleToRandomRow();
+//            insertRandomMarbleToRandomRow();
 		}
 		
 	}
@@ -69,6 +72,40 @@ public class World {
 	
 	public void getAllMarblesInScreen() {
 		
+	}
+	
+	public void updateWithTouchEvent(TouchEvent event) {
+    	for (Row row : mRows) {
+            if (row.isTouchInBounds(event.x, event.y)) {
+            	for (Marble marble : row.mMarbleList) {
+            		if (marble != null) {
+            			if (marble.isTouchInBounds(event.x, event.y)) {
+            				if (event.type == TouchEvent.TOUCH_DRAGGED && marble.mState == MarbleState.PRESSED) {
+            					if (marble.mTouchStartPos[0] - event.x > MIN_SWIPE_DIST
+            							|| marble.mTouchStartPos[0] - event.x < -MIN_SWIPE_DIST
+            							|| marble.mTouchStartPos[1] - event.y > MIN_SWIPE_DIST
+            							|| marble.mTouchStartPos[1] - event.y < -MIN_SWIPE_DIST) {
+            						marble.mState = MarbleState.FLYING;
+            						marble.mEndStartPos[0] = event.x;
+            						marble.mEndStartPos[1] = event.y;
+            					}
+            				} else if (event.type == TouchEvent.TOUCH_DOWN && marble.mState == MarbleState.FALLING) {
+            					marble.mState = MarbleState.PRESSED;
+            					marble.mTouchStartPos[0] = event.x;
+            					marble.mTouchStartPos[1] = event.y;
+            				} else if (event.type == TouchEvent.TOUCH_UP && marble.mState == MarbleState.PRESSED) {
+            					marble.mState = MarbleState.FALLING;
+            				}
+            				
+//            				break; //no need check other marbles
+            			}
+            		} else {
+            			break;
+            		}
+            	}
+//            	break; //no need check other rows (need to check because added padding)
+            }
+        }
 	}
 
 }

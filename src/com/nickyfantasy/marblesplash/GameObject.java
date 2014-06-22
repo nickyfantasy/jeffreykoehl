@@ -38,11 +38,6 @@ public class GameObject{
 	    return isTouch;  
 	}
 
-
-	public void setPressing(boolean pressing) {
-		mPressing = pressing;
-	}
-
 	public void updateState(float deltaTime) {
 		// TODO Auto-generated method stub
 		

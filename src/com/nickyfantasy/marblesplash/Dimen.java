@@ -9,5 +9,6 @@ public class Dimen {
 	public static int apply(int dimen) {
 		return (int) (dimen * scaleRatio);
 	}
+	
 
 }

@@ -30,7 +30,6 @@ public class GameScreen extends Screen {
     }   
 
     public void update(float deltaTime) {
-    	mWorld.update(deltaTime);
     	
         Graphics g = game.getGraphics();
         List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
@@ -39,15 +38,10 @@ public class GameScreen extends Screen {
         int len = touchEvents.size();
         for(int i = 0; i < len; i++) {
             TouchEvent event = touchEvents.get(i);
-//            if(event.type == TouchEvent.TOUCH_UP) {
-//                if(mLv1Button.isTouchInBounds(event.x, event.y)) {
-//                    game.setScreen(new GameScreen(game));
-//                    if(Settings.soundEnabled)
-//                        Assets.click.play(1);
-//                    return;
-//                }
-//            }
+            mWorld.updateWithTouchEvent(event);
         }
+
+    	mWorld.update(deltaTime);
     }
 
     public void present(float deltaTime) {
@@ -56,7 +50,7 @@ public class GameScreen extends Screen {
         for (Row row : mWorld.mRows) {
         	for (Marble marble : row.mMarbleList) {
         		if (marble != null) {
-        			if (!marble.mDestroyed) {
+        			if (marble.mState != MarbleState.DESTROYED) {
         				g.drawGameObject(marble);
         			}
         		} else {
