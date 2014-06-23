@@ -118,6 +118,7 @@ public class Marble extends GameObject {
 			}
 
 			if (touchXBorder && touchYBorder) {
+				Log.e("ZZZ", "marble destroyed");
 				mState = MarbleState.DESTROYED;
 			}
 		} else {
@@ -169,7 +170,7 @@ public class Marble extends GameObject {
 	}
 	
 	private void setMarbleBitmap() {
-		if (mState != MarbleState.READY) {
+		if (mState == MarbleState.FALLING) {
 			switch (mColor) {
 			case MarbleColor.RED:
 				mPixmap = Assets.redMarble;

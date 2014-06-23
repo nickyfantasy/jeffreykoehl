@@ -49,10 +49,13 @@ public class World {
 		mReadyMarble = null;
 		for (Row row : mRows) {
 			row.updateState(deltaTime);
-			if (mReadyMarble == null) mReadyMarble = row.mBottomMarble;
-			else if (row.mBottomMarble != null && row.mBottomMarble.mPosY > mReadyMarble.mPosY) mReadyMarble = row.mBottomMarble;
+			if (mReadyMarble == null) {
+				mReadyMarble = row.mBottomMarble;
+			} else if (row.mBottomMarble != null && row.mBottomMarble.mPosY > mReadyMarble.mPosY) {
+				mReadyMarble = row.mBottomMarble;
+			}
 		}
-		if (mReadyMarble != null) {
+		if (mReadyMarble != null && mReadyMarble.mState != MarbleState.PRESSED) {
 			mReadyMarble.setMarbleState(MarbleState.READY);
 		}
 	}
@@ -102,7 +105,7 @@ public class World {
             					marble.mTouchStartPos[0] = event.x;
             					marble.mTouchStartPos[1] = event.y;
             				} else if (event.type == TouchEvent.TOUCH_UP && marble.mState == MarbleState.PRESSED) {
-            					marble.setMarbleState(MarbleState.FALLING);
+            					marble.setMarbleState(MarbleState.READY);
             				}
             				
 //            				break; //no need check other marbles

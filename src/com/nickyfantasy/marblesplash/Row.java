@@ -27,11 +27,11 @@ public class Row extends GameObject {
 		for (Marble marble : mMarbleList) {
 			if (marble != null) {
 				if (marble.mState != MarbleState.DESTROYED) {
-					marble.updateState(deltaTime);
-				}
-				if (marble.mState == MarbleState.FALLING) {
-					if (mBottomMarble == null) mBottomMarble = marble;
-					else if (marble.mPosY > mBottomMarble.mPosY) mBottomMarble = marble;
+					marble.updateState(deltaTime); //could be destroyed here
+					if (marble.mState != MarbleState.FLYING && marble.mState != MarbleState.BOMBING && marble.mState != MarbleState.DESTROYED) {
+						if (mBottomMarble == null) mBottomMarble = marble;
+						else if (marble.mPosY > mBottomMarble.mPosY) mBottomMarble = marble;
+					}
 				}
 			} else {
 				break;
