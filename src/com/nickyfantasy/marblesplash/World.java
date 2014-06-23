@@ -9,13 +9,14 @@ import android.util.Log;
 public class World {
 	
 	static final float TICK_INITIAL = 0.7f; //secs to add a new marble
-	static final int MIN_SWIPE_DIST= Dimen.apply(20);
+	static final int MIN_SWIPE_DIST= Dimen.apply(30);
 	static final int ROW_WIDTH = Dimen.apply(200);
 	public Row[] mRows = new Row[6];
 	private float tickTime = 0;
 	private Random mRandom = new Random();
 	private int mMarbleSpeed = Dimen.apply(300);
 	private int mMaxMarbleInRow = 12;
+	private Marble mReadyMarble;
 	
 	public World() {
 		boolean narrow = (1.0f * Dimen.deviceWidth / Dimen.deviceHeight) <= 1.5;
@@ -32,22 +33,28 @@ public class World {
 	}
 	
 	public void update(float deltaTime) {
-		for (Row row : mRows) {
-			row.updateState(deltaTime);
-		}
 		tickTime += deltaTime;
 		while (tickTime > TICK_INITIAL) {
             tickTime -= TICK_INITIAL;
-            insertRandomMarble(0);
-            insertRandomMarble(1);
-            insertRandomMarble(2);
-            insertRandomMarble(3);
-            insertRandomMarble(4);
-            insertRandomMarble(5);
+//            insertRandomMarble(0);
+//            insertRandomMarble(1);
+//            insertRandomMarble(2);
+//            insertRandomMarble(3);
+//            insertRandomMarble(4);
+//            insertRandomMarble(5);
 //            insertMarbleToRandomRow(marble);
-//            insertRandomMarbleToRandomRow();
+            insertRandomMarbleToRandomRow();
 		}
-		
+
+		mReadyMarble = null;
+		for (Row row : mRows) {
+			row.updateState(deltaTime);
+			if (mReadyMarble == null) mReadyMarble = row.mBottomMarble;
+			else if (row.mBottomMarble != null && row.mBottomMarble.mPosY > mReadyMarble.mPosY) mReadyMarble = row.mBottomMarble;
+		}
+		if (mReadyMarble != null) {
+			mReadyMarble.setMarbleState(MarbleState.READY);
+		}
 	}
 	
 	private void insertRandomMarbleToRandomRow() {
@@ -85,16 +92,17 @@ public class World {
             							|| marble.mTouchStartPos[0] - event.x < -MIN_SWIPE_DIST
             							|| marble.mTouchStartPos[1] - event.y > MIN_SWIPE_DIST
             							|| marble.mTouchStartPos[1] - event.y < -MIN_SWIPE_DIST) {
-            						marble.mState = MarbleState.FLYING;
+            						marble.setMarbleState(MarbleState.FLYING);
             						marble.mEndStartPos[0] = event.x;
             						marble.mEndStartPos[1] = event.y;
+            						marble.computeFlyingSpeed();
             					}
-            				} else if (event.type == TouchEvent.TOUCH_DOWN && marble.mState == MarbleState.FALLING) {
-            					marble.mState = MarbleState.PRESSED;
+            				} else if (event.type == TouchEvent.TOUCH_DOWN && marble.mState == MarbleState.READY) {
+            					marble.setMarbleState(MarbleState.PRESSED);
             					marble.mTouchStartPos[0] = event.x;
             					marble.mTouchStartPos[1] = event.y;
             				} else if (event.type == TouchEvent.TOUCH_UP && marble.mState == MarbleState.PRESSED) {
-            					marble.mState = MarbleState.FALLING;
+            					marble.setMarbleState(MarbleState.FALLING);
             				}
             				
 //            				break; //no need check other marbles

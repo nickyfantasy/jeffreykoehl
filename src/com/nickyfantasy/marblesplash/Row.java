@@ -12,6 +12,7 @@ public class Row extends GameObject {
 	int mMarbleIndexToInsert = 0;
 	int mDestroyedMarbleIndex = 0;
 	final int mMarbleXPos;
+	Marble mBottomMarble;
 
 	public Row(Pixmap pixmap, int width, int height, int x, int y, int maxSize) {
 		super(pixmap, width, height, x, y);
@@ -22,10 +23,15 @@ public class Row extends GameObject {
 	@Override
 	public void updateState(float deltaTime) {
 		super.updateState(deltaTime);
+		mBottomMarble = null;
 		for (Marble marble : mMarbleList) {
 			if (marble != null) {
 				if (marble.mState != MarbleState.DESTROYED) {
 					marble.updateState(deltaTime);
+				}
+				if (marble.mState == MarbleState.FALLING) {
+					if (mBottomMarble == null) mBottomMarble = marble;
+					else if (marble.mPosY > mBottomMarble.mPosY) mBottomMarble = marble;
 				}
 			} else {
 				break;
