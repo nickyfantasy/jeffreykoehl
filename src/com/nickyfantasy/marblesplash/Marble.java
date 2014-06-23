@@ -8,11 +8,10 @@ public class Marble extends GameObject {
 
 	static final int FLYING_SPEED = Dimen.apply(1600);
 	static final int FLYING_IN_BORDER_SPEED = Dimen.apply(1000);
+	static final int BOMB_FLYING_SPEED = Dimen.apply(1500);
 	static final int TOUCH_LEFT_PADDING = Dimen.apply(100);
 	static final int TOUCH_TOP_PADDING = Dimen.apply(130);
 	static final int TOUCH_BOTTOM_PADDING = Dimen.apply(70);
-	static final int PIXMAP_WIDTH = Assets.redMarble.getWidth();
-	static final int PIXMAP_HEIGHT = Assets.redMarble.getHeight();
 	int mFallingSpeed; //px per sec
 	int mState = MarbleState.FALLING;
 	int[] mTouchStartPos = new int[2];
@@ -20,6 +19,7 @@ public class Marble extends GameObject {
 	int[] mFlyingSpeed = new int[2];
 	int mFlyingDirection;
 	int mColor;
+	float mBombFlyingAngleRatio;
 	
 	public Marble(int color, int speed, int x) {
 		super(null, 0, 0);
@@ -56,7 +56,7 @@ public class Marble extends GameObject {
 					if (touchYBorder) mPosY = 0;
 					break;
 				case FlyingDirection.TOP_RIGHT:
-					touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
+					touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
 					touchYBorder = mPosY <= 0;
 
 					if (touchXBorder) {
@@ -64,24 +64,24 @@ public class Marble extends GameObject {
 						touchYBorder = mPosY <= 0;
 					} else if (touchYBorder) {
 						mPosX += deltaTime * FLYING_IN_BORDER_SPEED;
-						touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
+						touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
 					} else {
 						mPosX += (deltaTime * mFlyingSpeed[0]);
 						mPosY += (deltaTime * mFlyingSpeed[1]);
-						touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
+						touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
 						touchYBorder = mPosY <= 0;
 					}
 					
-					if (touchXBorder) mPosX = Dimen.deviceWidth - PIXMAP_WIDTH;
+					if (touchXBorder) mPosX = Dimen.deviceWidth - mWidth;
 					if (touchYBorder) mPosY = 0;
 					break;
 				case FlyingDirection.BOTTOM_LEFT:
 					touchXBorder = mPosX <= 0;
-					touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+					touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					
 					if (touchXBorder) {
 						mPosY += deltaTime * FLYING_IN_BORDER_SPEED;
-						touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+						touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					} else if (touchYBorder) {
 						mPosX -= deltaTime * FLYING_IN_BORDER_SPEED;
 						touchXBorder = mPosX <= 0;
@@ -89,31 +89,31 @@ public class Marble extends GameObject {
 						mPosX += (deltaTime * mFlyingSpeed[0]);
 						mPosY += (deltaTime * mFlyingSpeed[1]);
 						touchXBorder = mPosX <= 0;
-						touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+						touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					}
 					
 					if (touchXBorder) mPosX = 0;
-					if (touchYBorder) mPosY = Dimen.deviceHeight - PIXMAP_HEIGHT;
+					if (touchYBorder) mPosY = Dimen.deviceHeight - mHeight;
 					break;
 				case FlyingDirection.BOTTOM_RIGHT:
-					touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
-					touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+					touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
+					touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					
 					if (touchXBorder) {
 						mPosY += deltaTime * FLYING_IN_BORDER_SPEED;
-						touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+						touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					} else if (touchYBorder) {
 						mPosX += deltaTime * FLYING_IN_BORDER_SPEED;
-						touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
+						touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
 					} else {
 						mPosX += (deltaTime * mFlyingSpeed[0]);
 						mPosY += (deltaTime * mFlyingSpeed[1]);
-						touchXBorder = mPosX >= Dimen.deviceWidth - PIXMAP_WIDTH;
-						touchYBorder = mPosY >= Dimen.deviceHeight - PIXMAP_HEIGHT;
+						touchXBorder = mPosX >= Dimen.deviceWidth - mWidth;
+						touchYBorder = mPosY >= Dimen.deviceHeight - mHeight;
 					}
 					
-					if (touchXBorder) mPosX = Dimen.deviceWidth - PIXMAP_WIDTH;
-					if (touchYBorder) mPosY = Dimen.deviceHeight - PIXMAP_HEIGHT;
+					if (touchXBorder) mPosX = Dimen.deviceWidth - mWidth;
+					if (touchYBorder) mPosY = Dimen.deviceHeight - mHeight;
 					break;
 			}
 
@@ -121,10 +121,38 @@ public class Marble extends GameObject {
 				Log.e("ZZZ", "marble destroyed");
 				mState = MarbleState.DESTROYED;
 			}
+		} else if (mState == MarbleState.BOMBING) {
+			float deltaY = deltaTime * BOMB_FLYING_SPEED;
+			switch (mColor) {
+				case FlyingDirection.TOP_LEFT:
+					mPosY -= deltaY;
+					mPosX -= deltaY * mBombFlyingAngleRatio;
+					if (mPosY <= 0 && mPosX <= 0) mState = MarbleState.DESTROYED;
+					break;
+				case FlyingDirection.TOP_RIGHT:
+					mPosY -= deltaY;
+					mPosX += deltaY * mBombFlyingAngleRatio;
+					if (mPosY <= 0 && mPosX >= Dimen.deviceWidth - mWidth) mState = MarbleState.DESTROYED;
+					break;
+				case FlyingDirection.BOTTOM_LEFT:
+					mPosX -= deltaY;
+					if (mPosX <= 0) mState = MarbleState.DESTROYED;
+					break;
+				case FlyingDirection.BOTTOM_RIGHT:
+					mPosX += deltaY;
+					if (mPosX >= Dimen.deviceWidth - mWidth) mState = MarbleState.DESTROYED;
+					break;
+			}
 		} else {
 			mPosY += Math.round(deltaTime * mFallingSpeed);
-			if (mPosY > Dimen.deviceHeight) {
-				mState = MarbleState.DESTROYED;
+			if (mPosY > Dimen.deviceHeight - mHeight) {
+				mPosY = Dimen.deviceHeight - mHeight;
+				setMarbleState(MarbleState.BOMBING);
+				if (mColor == FlyingDirection.TOP_LEFT) {
+					mBombFlyingAngleRatio = 1.0f * mPosX / (Dimen.deviceHeight - mHeight);
+				} else if (mColor == FlyingDirection.TOP_RIGHT) {
+					mBombFlyingAngleRatio = 1.0f * (Dimen.deviceWidth - mPosX - mWidth) / (Dimen.deviceHeight - mHeight);
+				}
 			}
 		}
 	}
@@ -159,7 +187,7 @@ public class Marble extends GameObject {
 		mColor = color;
 		setMarbleBitmap();
 		mWidth = mPixmap.getWidth();
-		mHeight = mPixmap.getHeight();
+		mHeight = mPixmap.getHeight();;
 	}
 	
 	public void setMarbleState(int state) {
@@ -183,6 +211,21 @@ public class Marble extends GameObject {
 				break;
 			case MarbleColor.GREEN:
 				mPixmap = Assets.greenMarble;
+				break;
+			}
+		} else if (mState == MarbleState.BOMBING) {
+			switch (mColor) {
+			case MarbleColor.RED:
+				mPixmap = Assets.redMarbleB;
+				break;
+			case MarbleColor.BLUE:
+				mPixmap = Assets.blueMarbleB;
+				break;
+			case MarbleColor.YELLOW:
+				mPixmap = Assets.yellowMarbleB;
+				break;
+			case MarbleColor.GREEN:
+				mPixmap = Assets.greenMarbleB;
 				break;
 			}
 		} else {

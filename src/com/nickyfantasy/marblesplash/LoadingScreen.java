@@ -26,6 +26,10 @@ public class LoadingScreen extends Screen {
         Assets.greenMarbleP = g.newPixmap("green_pressed.png", PixmapFormat.RGB565, false);
         Assets.yellowMarbleP = g.newPixmap("yellow_pressed.png", PixmapFormat.RGB565, false);
         Assets.blueMarbleP = g.newPixmap("blue_pressed.png", PixmapFormat.RGB565, false);
+        Assets.redMarbleB = g.newPixmap("red_bomb.png", PixmapFormat.RGB565, false);
+        Assets.greenMarbleB = g.newPixmap("green_bomb.png", PixmapFormat.RGB565, false);
+        Assets.yellowMarbleB = g.newPixmap("yellow_bomb.png", PixmapFormat.RGB565, false);
+        Assets.blueMarbleB = g.newPixmap("blue_bomb.png", PixmapFormat.RGB565, false);
         Assets.play = g.newPixmap("play.png", PixmapFormat.RGB565, false);
         Assets.lv1 = g.newPixmap("lv1.png", PixmapFormat.RGB565, false);
         Assets.lv2 = g.newPixmap("lv2.png", PixmapFormat.RGB565, false);

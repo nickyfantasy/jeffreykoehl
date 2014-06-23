@@ -13,6 +13,10 @@ public class Assets {
     public static Pixmap blueMarbleP;
     public static Pixmap greenMarbleP;
     public static Pixmap yellowMarbleP;
+    public static Pixmap redMarbleB;
+    public static Pixmap blueMarbleB;
+    public static Pixmap greenMarbleB;
+    public static Pixmap yellowMarbleB;
     public static Pixmap redNom;
     public static Pixmap blueNom;
     public static Pixmap greenNom;
