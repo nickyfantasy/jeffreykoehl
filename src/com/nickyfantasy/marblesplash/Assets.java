@@ -21,6 +21,7 @@ public class Assets {
     public static Pixmap blueNom;
     public static Pixmap greenNom;
     public static Pixmap yellowNom;
+    public static Pixmap life;
     public static Pixmap play;
     public static Pixmap lv1;
     public static Pixmap lv2;

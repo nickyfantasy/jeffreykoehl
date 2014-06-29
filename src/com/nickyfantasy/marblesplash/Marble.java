@@ -1,8 +1,8 @@
 package com.nickyfantasy.marblesplash;
 
-import android.util.Log;
-
-import com.nickyfantasy.marblesplash.framework.Pixmap;
+import com.nickyfantasy.marblesplash.Constant.FlyingDirection;
+import com.nickyfantasy.marblesplash.Constant.MarbleColor;
+import com.nickyfantasy.marblesplash.Constant.MarbleState;
 
 public class Marble extends GameObject {
 
@@ -20,10 +20,12 @@ public class Marble extends GameObject {
 	int mFlyingDirection;
 	int mColor;
 	float mBombFlyingAngleRatio;
+	World mWorld;
 	
-	public Marble(int color, int speed, int x) {
+	public Marble(int color, int speed, int x, World world) {
 		super(null, 0, 0);
 		setMarbleProperties(color, speed, x);
+		mWorld = world;
 	}
 
 	@Override
@@ -118,8 +120,23 @@ public class Marble extends GameObject {
 			}
 
 			if (touchXBorder && touchYBorder) {
-				Log.e("ZZZ", "marble destroyed");
 				mState = MarbleState.DESTROYED;
+				if (mFlyingDirection != mColor) {
+					switch (mFlyingDirection) {
+						case FlyingDirection.TOP_LEFT:
+							mWorld.mBlueNom.mLife--;
+							break;
+						case FlyingDirection.TOP_RIGHT:
+							mWorld.mRedNom.mLife--;
+							break;
+						case FlyingDirection.BOTTOM_LEFT:
+							mWorld.mYellowNom.mLife--;
+							break;
+						case FlyingDirection.BOTTOM_RIGHT:
+							mWorld.mGreenNom.mLife--;
+							break;
+					}
+				}
 			}
 		} else if (mState == MarbleState.BOMBING) {
 			float deltaY = deltaTime * BOMB_FLYING_SPEED;
@@ -127,20 +144,32 @@ public class Marble extends GameObject {
 				case FlyingDirection.TOP_LEFT:
 					mPosY -= deltaY;
 					mPosX -= deltaY * mBombFlyingAngleRatio;
-					if (mPosY <= 0 && mPosX <= 0) mState = MarbleState.DESTROYED;
+					if (mPosY <= 0 && mPosX <= 0) {
+						mState = MarbleState.DESTROYED;
+						mWorld.mBlueNom.mLife--;
+					}
 					break;
 				case FlyingDirection.TOP_RIGHT:
 					mPosY -= deltaY;
 					mPosX += deltaY * mBombFlyingAngleRatio;
-					if (mPosY <= 0 && mPosX >= Dimen.deviceWidth - mWidth) mState = MarbleState.DESTROYED;
+					if (mPosY <= 0 && mPosX >= Dimen.deviceWidth - mWidth) {
+						mState = MarbleState.DESTROYED;
+						mWorld.mRedNom.mLife--;
+					}
 					break;
 				case FlyingDirection.BOTTOM_LEFT:
 					mPosX -= deltaY;
-					if (mPosX <= 0) mState = MarbleState.DESTROYED;
+					if (mPosX <= 0) {
+						mState = MarbleState.DESTROYED;
+						mWorld.mYellowNom.mLife--;
+					}
 					break;
 				case FlyingDirection.BOTTOM_RIGHT:
 					mPosX += deltaY;
-					if (mPosX >= Dimen.deviceWidth - mWidth) mState = MarbleState.DESTROYED;
+					if (mPosX >= Dimen.deviceWidth - mWidth) {
+						mState = MarbleState.DESTROYED;
+						mWorld.mGreenNom.mLife--;
+					}
 					break;
 			}
 		} else {

@@ -2,6 +2,7 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.List;
 
+import com.nickyfantasy.marblesplash.Constant.MarbleState;
 import com.nickyfantasy.marblesplash.framework.Game;
 import com.nickyfantasy.marblesplash.framework.Graphics;
 import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
@@ -16,17 +17,12 @@ public class GameScreen extends Screen {
     }
     private World mWorld = new World();
 	private GameState state = GameState.Running;
-	private GameObject mBlueNom;
-	private GameObject mRedNom;
-	private GameObject mYellowNom;
-	private GameObject mGreenNom;
+	private static int LIFE_Y_OFFSET = Dimen.apply(230);
+	private static int LIFE_SIZE = Dimen.apply(60);
 	
     public GameScreen(Game game) {
         super(game);
-        mBlueNom = new GameObject(Assets.blueNom, 0, 0);
-        mRedNom = new GameObject(Assets.redNom, Dimen.deviceWidth - Assets.redNom.getWidth(), 0);
-        mYellowNom = new GameObject(Assets.yellowNom, 0, Dimen.deviceHeight - Assets.yellowNom.getHeight());
-        mGreenNom = new GameObject(Assets.greenNom, Dimen.deviceWidth - Assets.greenNom.getWidth(), Dimen.deviceHeight - Assets.greenNom.getHeight());
+        
     }   
 
     public void update(float deltaTime) {
@@ -58,10 +54,92 @@ public class GameScreen extends Screen {
         		}
         	}
         }
-        g.drawGameObject(mBlueNom);
-        g.drawGameObject(mRedNom);
-        g.drawGameObject(mYellowNom);
-        g.drawGameObject(mGreenNom);
+        g.drawGameObject(mWorld.mBlueNom);
+        g.drawGameObject(mWorld.mRedNom);
+        g.drawGameObject(mWorld.mYellowNom);
+        g.drawGameObject(mWorld.mGreenNom);
+        drawLife(g);
+        
+    }
+    
+	public void drawLife(Graphics g) {
+		
+
+		if (mWorld.mBlueNom.mLife <= 0) {
+			state = GameState.GameOver;
+		} else {
+			if (mWorld.mBlueNom.mLife >= 1) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 0,
+						LIFE_Y_OFFSET);
+			}
+			if (mWorld.mBlueNom.mLife >= 2) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 1, LIFE_Y_OFFSET);
+			}
+			if (mWorld.mBlueNom.mLife >= 3) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 2, LIFE_Y_OFFSET);
+			}
+		}
+		
+		if (mWorld.mRedNom.mLife <= 0) {
+			state = GameState.GameOver;
+		} else {
+			if (mWorld.mRedNom.mLife >= 1) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 1,
+						LIFE_Y_OFFSET);
+			}
+			if (mWorld.mRedNom.mLife >= 2) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 2, LIFE_Y_OFFSET);
+			}
+			if (mWorld.mRedNom.mLife >= 3) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 3, LIFE_Y_OFFSET);
+			}
+		}
+		
+		if (mWorld.mYellowNom.mLife <= 0) {
+			state = GameState.GameOver;
+		} else {
+			if (mWorld.mYellowNom.mLife >= 1) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 0 ,
+						Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+			if (mWorld.mYellowNom.mLife >= 2) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 1, Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+			if (mWorld.mYellowNom.mLife >= 3) {
+				g.drawPixmap(Assets.life, LIFE_SIZE * 2, Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+		}
+		
+		if (mWorld.mGreenNom.mLife <= 0) {
+			state = GameState.GameOver;
+		} else {
+			if (mWorld.mGreenNom.mLife >= 1) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 1,
+						Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+			if (mWorld.mGreenNom.mLife >= 2) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 2, Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+			if (mWorld.mGreenNom.mLife >= 3) {
+				g.drawPixmap(Assets.life, Dimen.deviceWidth - LIFE_SIZE * 3, Dimen.deviceHeight - LIFE_Y_OFFSET - LIFE_SIZE);
+			}
+		}
+	}
+    
+    public void drawBlueLife() {
+    	
+    }
+    
+    public void drawRedLife() {
+    	
+    }
+    
+    public void drawYellowLife() {
+    	
+    }
+    
+    public void drawGreenLife() {
+    	
     }
 
     public void pause() {        

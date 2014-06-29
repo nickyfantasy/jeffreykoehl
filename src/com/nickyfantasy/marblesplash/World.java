@@ -2,21 +2,26 @@ package com.nickyfantasy.marblesplash;
 
 import java.util.Random;
 
+import com.nickyfantasy.marblesplash.Constant.MarbleColor;
+import com.nickyfantasy.marblesplash.Constant.MarbleState;
 import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
-
-import android.util.Log;
 
 public class World {
 	
 	static final float TICK_INITIAL = 0.7f; //secs to add a new marble
 	static final int MIN_SWIPE_DIST= Dimen.apply(30);
 	static final int ROW_WIDTH = Dimen.apply(200);
-	public Row[] mRows = new Row[6];
+	Row[] mRows = new Row[6];
+	Nom mBlueNom;
+	Nom mRedNom;
+	Nom mYellowNom;
+	Nom mGreenNom;
 	private float tickTime = 0;
 	private Random mRandom = new Random();
 	private int mMarbleSpeed = Dimen.apply(300);
 	private int mMaxMarbleInRow = 12;
 	private Marble mReadyMarble;
+	private boolean mInsertLeft;
 	
 	public World() {
 		boolean narrow = (1.0f * Dimen.deviceWidth / Dimen.deviceHeight) <= 1.5;
@@ -28,8 +33,12 @@ public class World {
 		int leftRightSpace = (Dimen.deviceWidth - ROW_WIDTH * 6) / 2;
 		for (int i = 0; i < 6; i++) {
 			//TODO
-			mRows[i] = new Row(null, ROW_WIDTH, Dimen.deviceHeight, ROW_WIDTH * i + leftRightSpace, 0, mMaxMarbleInRow);
+			mRows[i] = new Row(null, ROW_WIDTH, Dimen.deviceHeight, ROW_WIDTH * i + leftRightSpace, 0, mMaxMarbleInRow, this);
 		}
+		mBlueNom = new Nom(Constant.NomType.BLUE, Assets.blueNom, 0, 0);
+        mRedNom = new Nom(Constant.NomType.RED, Assets.redNom, Dimen.deviceWidth - Assets.redNom.getWidth(), 0);
+        mYellowNom = new Nom(Constant.NomType.YELLOW, Assets.yellowNom, 0, Dimen.deviceHeight - Assets.yellowNom.getHeight());
+        mGreenNom = new Nom(Constant.NomType.GREEN, Assets.greenNom, Dimen.deviceWidth - Assets.greenNom.getWidth(), Dimen.deviceHeight - Assets.greenNom.getHeight());
 	}
 	
 	public void update(float deltaTime) {
@@ -43,7 +52,14 @@ public class World {
 //            insertRandomMarble(4);
 //            insertRandomMarble(5);
 //            insertMarbleToRandomRow(marble);
-            insertRandomMarbleToRandomRow();
+//            insertRandomMarbleToRandomRow();
+            if (mInsertLeft) {
+            	insertRandomMarbleToLeftSide();
+            	mInsertLeft = false;
+            } else {
+            	insertRandomMarbleToRightSide();
+            	mInsertLeft = true;
+            }
 		}
 
 		mReadyMarble = null;
@@ -58,6 +74,16 @@ public class World {
 		if (mReadyMarble != null && mReadyMarble.mState != MarbleState.PRESSED) {
 			mReadyMarble.setMarbleState(MarbleState.READY);
 		}
+	}
+	
+	private void insertRandomMarbleToLeftSide() {
+		int rowIndex = mRandom.nextInt(3);
+		insertRandomMarble(rowIndex);
+	}
+	
+	private void insertRandomMarbleToRightSide() {
+		int rowIndex = mRandom.nextInt(3) + 3;
+		insertRandomMarble(rowIndex);
 	}
 	
 	private void insertRandomMarbleToRandomRow() {

@@ -2,6 +2,7 @@ package com.nickyfantasy.marblesplash;
 
 import android.util.Log;
 
+import com.nickyfantasy.marblesplash.Constant.MarbleState;
 import com.nickyfantasy.marblesplash.framework.Pixmap;
 
 public class Row extends GameObject {
@@ -13,11 +14,13 @@ public class Row extends GameObject {
 	int mDestroyedMarbleIndex = 0;
 	final int mMarbleXPos;
 	Marble mBottomMarble;
+	World mWorld;
 
-	public Row(Pixmap pixmap, int width, int height, int x, int y, int maxSize) {
+	public Row(Pixmap pixmap, int width, int height, int x, int y, int maxSize, World world) {
 		super(pixmap, width, height, x, y);
 		mMarbleList = new Marble[maxSize];
 		mMarbleXPos = x + ((width - Assets.redMarble.getWidth()) / 2);
+		mWorld = world;
 	}
 
 	@Override
@@ -51,7 +54,7 @@ public class Row extends GameObject {
 
 	private Marble createMarble(int color, int speed) {
 		Log.e("ZZZ", "createMarble");
-		return new Marble(color, speed, mMarbleXPos);
+		return new Marble(color, speed, mMarbleXPos, mWorld);
 	}
 
 	private Marble reuseMarble(int color, int speed) {
