@@ -10,6 +10,8 @@ public interface Graphics {
     public Pixmap newPixmap(String fileName, PixmapFormat format, boolean isBg);
 
     public void clear();
+    
+    public void drawARGB(int a, int r, int g, int b);
 
     public void drawPixel(int x, int y, int color);
 

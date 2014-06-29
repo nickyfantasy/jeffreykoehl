@@ -124,16 +124,16 @@ public class Marble extends GameObject {
 				if (mFlyingDirection != mColor) {
 					switch (mFlyingDirection) {
 						case FlyingDirection.TOP_LEFT:
-							mWorld.mBlueNom.mLife--;
+							mWorld.hurtNom(mWorld.mBlueNom);
 							break;
 						case FlyingDirection.TOP_RIGHT:
-							mWorld.mRedNom.mLife--;
+							mWorld.hurtNom(mWorld.mRedNom);
 							break;
 						case FlyingDirection.BOTTOM_LEFT:
-							mWorld.mYellowNom.mLife--;
+							mWorld.hurtNom(mWorld.mYellowNom);
 							break;
 						case FlyingDirection.BOTTOM_RIGHT:
-							mWorld.mGreenNom.mLife--;
+							mWorld.hurtNom(mWorld.mGreenNom);
 							break;
 					}
 				}
@@ -146,7 +146,7 @@ public class Marble extends GameObject {
 					mPosX -= deltaY * mBombFlyingAngleRatio;
 					if (mPosY <= 0 && mPosX <= 0) {
 						mState = MarbleState.DESTROYED;
-						mWorld.mBlueNom.mLife--;
+						mWorld.hurtNom(mWorld.mBlueNom);
 					}
 					break;
 				case FlyingDirection.TOP_RIGHT:
@@ -154,21 +154,21 @@ public class Marble extends GameObject {
 					mPosX += deltaY * mBombFlyingAngleRatio;
 					if (mPosY <= 0 && mPosX >= Dimen.deviceWidth - mWidth) {
 						mState = MarbleState.DESTROYED;
-						mWorld.mRedNom.mLife--;
+						mWorld.hurtNom(mWorld.mRedNom);
 					}
 					break;
 				case FlyingDirection.BOTTOM_LEFT:
 					mPosX -= deltaY;
 					if (mPosX <= 0) {
 						mState = MarbleState.DESTROYED;
-						mWorld.mYellowNom.mLife--;
+						mWorld.hurtNom(mWorld.mYellowNom);
 					}
 					break;
 				case FlyingDirection.BOTTOM_RIGHT:
 					mPosX += deltaY;
 					if (mPosX >= Dimen.deviceWidth - mWidth) {
 						mState = MarbleState.DESTROYED;
-						mWorld.mGreenNom.mLife--;
+						mWorld.hurtNom(mWorld.mGreenNom);
 					}
 					break;
 			}

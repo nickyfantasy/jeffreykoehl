@@ -8,7 +8,8 @@ import com.nickyfantasy.marblesplash.framework.Input.TouchEvent;
 
 public class World {
 	
-	static final float TICK_INITIAL = 0.7f; //secs to add a new marble
+	static final float TICK_INITIAL = 1.2f; //secs to add a new marble
+    static final float TICK_DECREMENT = 0.02f;
 	static final int MIN_SWIPE_DIST= Dimen.apply(30);
 	static final int ROW_WIDTH = Dimen.apply(200);
 	Row[] mRows = new Row[6];
@@ -16,9 +17,12 @@ public class World {
 	Nom mRedNom;
 	Nom mYellowNom;
 	Nom mGreenNom;
+	boolean mGameOver;
 	private float tickTime = 0;
+    private float tick = TICK_INITIAL;
 	private Random mRandom = new Random();
-	private int mMarbleSpeed = Dimen.apply(300);
+	private int mMarbleSpeed = Dimen.apply(200);
+	private int mMarbleIncSpeed = Dimen.apply(5);
 	private int mMaxMarbleInRow = 12;
 	private Marble mReadyMarble;
 	private boolean mInsertLeft;
@@ -43,8 +47,9 @@ public class World {
 	
 	public void update(float deltaTime) {
 		tickTime += deltaTime;
-		while (tickTime > TICK_INITIAL) {
-            tickTime -= TICK_INITIAL;
+		if (tickTime > tick) {
+            tickTime -= tick;
+            tick *= 0.99f;
 //            insertRandomMarble(0);
 //            insertRandomMarble(1);
 //            insertRandomMarble(2);
@@ -74,6 +79,7 @@ public class World {
 		if (mReadyMarble != null && mReadyMarble.mState != MarbleState.PRESSED) {
 			mReadyMarble.setMarbleState(MarbleState.READY);
 		}
+		
 	}
 	
 	private void insertRandomMarbleToLeftSide() {
@@ -103,11 +109,17 @@ public class World {
 	
 	private void insertMarble(int rowIndex, int color) {
 		mRows[rowIndex].insertMarble(color, mMarbleSpeed);
+		mMarbleSpeed += mMarbleIncSpeed;
 	}
 
 	
 	public void getAllMarblesInScreen() {
 		
+	}
+	
+	public void hurtNom(Nom nom) {
+		nom.mLife--;
+		if (nom.mLife == 0) mGameOver = true;
 	}
 	
 	public void updateWithTouchEvent(TouchEvent event) {

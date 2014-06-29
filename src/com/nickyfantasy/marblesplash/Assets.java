@@ -27,6 +27,9 @@ public class Assets {
     public static Pixmap lv2;
     public static Pixmap lv3;
     public static Pixmap selectLevel;
+    public static Pixmap restart;
+    public static Pixmap main_menu;
+    public static Pixmap game_over;
     
     public static Sound click;
     public static Sound eat;

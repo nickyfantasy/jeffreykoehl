@@ -36,6 +36,9 @@ public class LoadingScreen extends Screen {
         Assets.lv2 = g.newPixmap("lv2.png", PixmapFormat.RGB565, false);
         Assets.lv3 = g.newPixmap("lv3.png", PixmapFormat.RGB565, false);
         Assets.selectLevel = g.newPixmap("select_level.png", PixmapFormat.RGB565, false);
+        Assets.restart = g.newPixmap("restart.png", PixmapFormat.RGB565, false);
+        Assets.main_menu = g.newPixmap("main_menu.png", PixmapFormat.RGB565, false);
+        Assets.game_over = g.newPixmap("game_over.png", PixmapFormat.RGB565, false);
         Assets.click = game.getAudio().newSound("click.ogg");
         Assets.eat = game.getAudio().newSound("eat.ogg");
         Assets.bitten = game.getAudio().newSound("bitten.ogg");

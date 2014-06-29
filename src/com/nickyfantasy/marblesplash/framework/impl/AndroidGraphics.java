@@ -89,6 +89,10 @@ public class AndroidGraphics implements Graphics {
     public void clear() {
     	canvas.drawColor(0, Mode.CLEAR);
     }
+    
+    public void drawARGB(int a, int r, int g, int b) {
+    	canvas.drawARGB(a, r, g, b);
+    }
 
     public void drawPixel(int x, int y, int color) {
         paint.setColor(color);
